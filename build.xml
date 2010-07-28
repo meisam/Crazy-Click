@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. -->
 <project basedir="." default="deploy-project" name="Refresher">
 	<property environment="env" />
 	<property name="debuglevel" value="source,lines,vars" />
@@ -12,9 +7,15 @@
 	<property name="project.src.dir" value="${basedir}/src" />
 	<property name="project.bin.dir" value="${basedir}/bin" />
 	<property name="project.dist.dir" value="${basedir}/dist" />
-	<property name="project.mainclass" value="com.github.mfs.crazyclick.RefresherMainClass" />
+	<property name="project.mainclass" value="com.github.mfs.crazyclick.Application" />
+	<property name="project.officialname" value="crazy-click" />
+	<property name="project.version.major" value="0" />
+	<property name="project.version.minor" value="1" />
+	<property name="project.version.build" value="0" />
+	<tstamp/>
+	<property name="project.releasename" value="${project.officialname}-${project.version.major}.${project.version.minor}.${project.version.build}.${DSTAMP}${TSTAMP}.jar" />
 
-	<path id="Refresher.classpath">
+	<path id="project.classpath">
 		<pathelement location="bin" />
 	</path>
 
@@ -25,7 +26,7 @@
 	</target>
 
 	<!-- ========== init  ========== -->
-	<target name="init">
+	<target name="init" depends="clean">
 		<mkdir dir="bin" />
 		<mkdir dir="dist" />
 		<copy includeemptydirs="false" todir="bin">
@@ -41,14 +42,14 @@
 		<echo message="${ant.project.name}: ${ant.file}" />
 		<javac debug="false" destdir="bin" source="${source}" target="${target}">
 			<src path="src" />
-			<classpath refid="Refresher.classpath" />
+			<classpath refid="project.classpath" />
 		</javac>
 	</target>
-	
+
 	<!-- ========== deploy-project  ========== -->
 	<target name="deploy-project" depends="build-project">
-		<echo message="$making the jar file" />
-		<jar destfile="${basedir}/dist/refresher.jar">
+		<echo message="making the jar file" />
+		<jar destfile="${basedir}/dist/${project.releasename}">
 			<fileset dir="bin">
 			</fileset>
 			<manifest>
